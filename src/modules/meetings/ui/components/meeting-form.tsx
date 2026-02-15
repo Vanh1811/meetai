@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/form"
 import { toast } from "sonner";
 import { useState } from "react";
-import { FileDiff } from "lucide-react";
 import { NewAgentDialog } from "@/modules/agents/ui/components/new-agent-dialog";
 import { useRouter } from "next/navigation";
 

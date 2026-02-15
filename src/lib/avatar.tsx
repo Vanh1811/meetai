@@ -1,6 +1,5 @@
 import { createAvatar } from "@dicebear/core";
 import { botttsNeutral, initials } from "@dicebear/collection";
-import { init } from "next/dist/compiled/webpack/webpack";
 
 interface Props {
     seed: string;

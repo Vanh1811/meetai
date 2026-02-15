@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MeetingGetOne } from "../../types";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { BookOpenTextIcon, ClockFadingIcon, FileTextIcon, FileVideo2Icon, SparkleIcon, SparklesIcon } from "lucide-react";
+import { BookOpenTextIcon, ClockFadingIcon, FileTextIcon, FileVideo2Icon, SparklesIcon } from "lucide-react";
 import Link from "next/link";
 import { GeneratedAvatar } from "@/components/generated-avatar";
 import { format } from "date-fns";
