@@ -12,11 +12,10 @@ import {
 } from "@stream-io/node-sdk"
 
 import { db } from "@/db"
-import { agents, meetings, meetingStatus } from "@/db/schema"
+import { agents, meetings } from "@/db/schema"
 import { streamVideo } from "@/lib/stream-video"
 import { inngest } from "@/inngest/client";
 import { generateAvatarUri } from "@/lib/avatar";
-import { channel } from "diagnostics_channel";
 import { streamChat } from "@/lib/stream-chat";
 
 const openaiClient = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
