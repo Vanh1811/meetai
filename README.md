@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MeetAI
+
+MeetAI is a Next.js app for running AI-assisted meetings. Create AI agents with custom instructions, schedule meetings, and host calls with real-time chat, transcripts, and post-call summaries.
+
+## Features
+- AI agents with custom instructions
+- Meeting scheduling and management
+- Live video calls with Stream Video
+- Real-time meeting chat with Stream Chat
+- Automatic transcription and post-call summaries
+- Auth with email/password and social providers (GitHub, Google)
+- Usage limits and upgrades via Polar
+
+## Tech Stack
+- Next.js 15 (App Router), React 19, TypeScript
+- tRPC + TanStack Query
+- Drizzle ORM + Postgres (Neon)
+- Stream Video + Stream Chat
+- OpenAI + Inngest for transcript processing
+- Better Auth + Polar
+- Tailwind CSS
 
 ## Getting Started
 
-First, run the development server:
-
+### 1) Install dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2) Configure environment variables
+Create a `.env.local` file in the project root. Example:
+```bash
+# App
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Database
+DATABASE_URL=postgres://USER:PASSWORD@HOST:PORT/DB
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Auth providers
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
 
-## Learn More
+# Stream Video
+NEXT_PUBLIC_STREAM_VIDEO_API_KEY=
+STREAM_VIDEO_SECRET_KEY=
 
-To learn more about Next.js, take a look at the following resources:
+# Stream Chat
+NEXT_PUBLIC_STREAM_CHAT_API_KEY=
+STREAM_CHAT_SECRET_KEY=
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# OpenAI
+OPENAI_API_KEY=
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Polar (billing)
+POLAR_ACCESS_TOKEN=
+```
 
-## Deploy on Vercel
+### 3) Push database schema
+```bash
+npm run db:push
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 4) Run the app
+```bash
+npm run dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open `http://localhost:3000`.
+
+## Webhooks (Stream)
+This app expects Stream webhooks for call lifecycle events and chat. For local development, you can expose your dev server:
+```bash
+npm run dev:webhook
+```
+Set the Stream webhook URL to `https://<ngrok-url>/api/webhook`.
+
+## Background Processing (Inngest)
+When a call transcription is ready, the webhook triggers an Inngest event that:
+- Fetches the transcript
+- Resolves speaker names
+- Generates a summary via OpenAI
+- Stores the summary in the meeting record
+
+## Scripts
+- `npm run dev`: Start Next.js dev server
+- `npm run build`: Production build
+- `npm run start`: Run production server
+- `npm run lint`: Lint
+- `npm run db:push`: Push Drizzle schema
+- `npm run db:studio`: Drizzle Studio
+- `npm run dev:webhook`: Expose local server via ngrok
+
+## Project Structure
+- `src/app`: Routes and layouts
+- `src/modules`: Feature modules (agents, meetings, call, auth, dashboard)
+- `src/db`: Drizzle config and schema
+- `src/inngest`: Inngest client and functions
+- `src/trpc`: tRPC routers and client setup
+- `src/lib`: Integrations (Stream, OpenAI, auth, etc.)
+
+## Notes
+- Stream Video and Chat require API keys and webhooks.
+- OpenAI is used for live agent behavior and post-call summaries.
